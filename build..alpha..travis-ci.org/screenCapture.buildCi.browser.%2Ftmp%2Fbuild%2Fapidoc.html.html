@@ -1,0 +1,233 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/jsahlen/gulp-css-globbing#readme">gulp-css-globbing (v0.1.9)</a>
+</h1>
+<h4>A Gulp plugin for globbing CSS @import statements</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-css-globbing">module gulp-css-globbing</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-css-globbing.gulp-css-globbing">
+            function <span class="apidocSignatureSpan"></span>gulp-css-globbing
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-css-globbing.toString">
+            function <span class="apidocSignatureSpan">gulp-css-globbing.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-css-globbing" id="apidoc.module.gulp-css-globbing">module gulp-css-globbing</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-css-globbing.gulp-css-globbing" id="apidoc.element.gulp-css-globbing.gulp-css-globbing">
+        function <span class="apidocSignatureSpan"></span>gulp-css-globbing
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-css-globbing = function (options) {
+  if (!options) options = {};
+  if (!options.extensions) options.extensions = ['.css'];
+  if (!options.ignoreFolders) options.ignoreFolders = [''];
+
+  var autoReplaceBlockDefaults = {
+    onOff: false,
+    globBlockBegin: 'cssGlobbingBegin',
+    globBlockEnd: 'cssGlobbingEnd',
+    globBlockContents: '../**/*.scss'
+  };
+
+  var scssImportPathDefaults = {
+    leading_underscore: true,
+    filename_extension: true
+  };
+
+  if (!options.autoReplaceBlock) options.autoReplaceBlock = autoReplaceBlockDefaults;
+
+  if (!options.scssImportPath) options.scssImportPath = scssImportPathDefaults;
+
+  if (typeof options.extensions == 'string') options.extensions = [options.extensions];
+
+  if (!(options.extensions instanceof Array)) {
+    throw new gutil.PluginError(PLUGIN_NAME, 'extensions needs to be a string or an array');
+  }
+
+  if (typeof options.ignoreFolders == 'string') options.ignoreFolders = [options.ignoreFolders];
+
+  if (!(options.ignoreFolders instanceof Array)) {
+    throw new gutil.PluginError(PLUGIN_NAME, 'ignore-folders needs to be a string or an array');
+  }
+  if (options.autoReplaceBlock === true){
+    options.autoReplaceBlock = autoReplaceBlockDefaults;
+    options.autoReplaceBlock.onOff = true
+  }
+
+  if (!(options.autoReplaceBlock instanceof Object)) {
+    throw new gutil.PluginError(PLUGIN_NAME, 'auto-replace block needs to be an object');
+  } else {
+    if (!options.autoReplaceBlock.globBlockBegin) options.autoReplaceBlock.globBlockBegin = autoReplaceBlockDefaults.globBlockBegin
+;
+    if (!options.autoReplaceBlock.globBlockEnd) options.autoReplaceBlock.globBlockEnd = autoReplaceBlockDefaults.globBlockEnd;
+    if (!options.autoReplaceBlock.globBlockContents) options.autoReplaceBlock.globBlockContents = autoReplaceBlockDefaults.globBlockContents
+;
+  }
+
+  if (!(options.scssImportPath instanceof Object)) {
+    throw new gutil.PluginError(PLUGIN_NAME, 'scss import path needs to be an object');
+  } else {
+    if (typeof options.scssImportPath.leading_underscore === 'undefined') options.scssImportPath.leading_underscore = scssImportPathDefaults
+.leading_underscore;
+    if (typeof options.scssImportPath.filename_extension === 'undefined') options.scssImportPath.filename_extension = scssImportPathDefaults
+.filename_extension;
+  }
+
+  return map(function(code, filename) {
+
+    var content = code.toString();
+    var semicolon = path.extname(filename).indexOf('.sass') !== -1 ? '' : ';';
+    var importRegExp = /^\s*@import\s+((?:url\()?["']?)?([^"'\)]+)(['"]?(?:\))?)?;?\s*$/gm;
+    var globRegExp = /\/\*/;
+    var files;
+
+    if (options.autoReplaceBlock.onOff){
+      var regexstring = '\/\/ '+options.autoReplaceBlock.globBlockBegin+'[\\s\\S]*?'+options.autoReplaceBlock.globBlockEnd;
+      var regexp = new RegExp(regexstring,'gm');
+
+      content = content.replace(regexp, function(result, prefix, filePattern, suffix) {
+        result = '// '+options.autoReplaceBlock.globBlockBegin+'\n';
+        result += '@import \''+options.autoReplaceBlock.globBlockContents+'\'' + semicolon + '\n';
+        result += '// '+options.autoReplaceBlock.globBlockEnd
+        return result;
+      });
+
+    }
+
+    content = content.replace(importRegExp, function(result, prefix, filePattern, suffix) {
+      files = [];
+
+      if (globRegExp.exec(filePattern)) {
+        glob.sync(filePattern, { cwd: path.dirname(filename) }).forEach(function(foundFilePath) {
+          if ((options.extensions.indexOf(path.extname(foundFilePath)) !== -1)&amp;&amp;(options.ignoreFolders.indexOf(path.dirname(foundFilePath
+))) == -1) {
+
+            var foundFilename = path.basename(foundFilePath);
+            var foundFileDirname = path.dirname(foundFilePath);
+
+            if (!options.scssImportPath.filename_extension) {
+              foundFilename = path.basename(foundFilename,path.extname(foundFilename));
+            }
+
+            if (!options.scssImportPath.leading_underscore) {
+              foundFilename = foundFilename.replace(/^_/,'');
+            }
+
+            foundFilePath = path.join(foundFileDirname,foundFilename).replace(new RegExp('\\' + path.sep, 'g') ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-css-globbing.toString" id="apidoc.element.gulp-css-globbing.toString">
+        function <span class="apidocSignatureSpan">gulp-css-globbing.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  } else {
+if (typeof options.scssImportPath.leading_underscore === 'undefined') options.scssImportPath.leading_underscore = scssImportPathDefaults
+.leading_underscore;
+if (typeof options.scssImportPath.filename_extension === 'undefined') options.scssImportPath.filename_extension = scssImportPathDefaults
+.filename_extension;
+  }
+
+  return map(function(code, filename) {
+
+var content = code.<span class="apidocCodeKeywordSpan">toString</span>();
+var semicolon = path.extname(filename).indexOf('.sass') !== -1 ? '' : ';';
+var importRegExp = /^\s*@import\s+((?:url\()?["']?)?([^"'\)]+)(['"]?(?:\))?)?;?\s*$/gm;
+var globRegExp = /\/\*/;
+var files;
+
+if (options.autoReplaceBlock.onOff){
+  var regexstring = '\/\/ '+options.autoReplaceBlock.globBlockBegin+'[\\s\\S]*?'+options.autoReplaceBlock.globBlockEnd
+;
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
