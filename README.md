@@ -1,4 +1,7 @@
-# api documentation for  [gulp-css-globbing (v0.1.9)](https://github.com/jsahlen/gulp-css-globbing#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-css-globbing.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-css-globbing) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-css-globbing.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-css-globbing)
+# npmdoc-gulp-css-globbing
+
+#### basic api documentation for  [gulp-css-globbing (v0.1.9)](https://github.com/jsahlen/gulp-css-globbing#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-css-globbing.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-css-globbing) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-css-globbing.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-css-globbing)
+
 #### A Gulp plugin for globbing CSS @import statements
 
 [![NPM](https://nodei.co/npm/gulp-css-globbing.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/gulp-css-globbing)
@@ -81,7 +84,8 @@
     "scripts": {
         "test": "mocha"
     },
-    "version": "0.1.9"
+    "version": "0.1.9",
+    "bin": {}
 }
 ```
 
