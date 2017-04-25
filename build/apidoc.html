@@ -70,15 +70,6 @@
 
         </li>
 
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.gulp-css-globbing.toString">
-            function <span class="apidocSignatureSpan">gulp-css-globbing.</span>toString
-            <span class="apidocSignatureSpan">()</span>
-            </a>
-
-        </li>
-
     </ol></li>
 
 </ol></div>
@@ -192,40 +183,6 @@
 
             foundFilePath = path.join(foundFileDirname,foundFilename).replace(new RegExp(&#x27;\\&#x27; + path.sep, &#x27;g&#x27;) ...</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-
-    <h2>
-        <a href="#apidoc.element.gulp-css-globbing.toString" id="apidoc.element.gulp-css-globbing.toString">
-        function <span class="apidocSignatureSpan">gulp-css-globbing.</span>toString
-        <span class="apidocSignatureSpan">()</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">toString = function () {
-    return text;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-  } else {
-if (typeof options.scssImportPath.leading_underscore === &#x27;undefined&#x27;) options.scssImportPath.leading_underscore = scssImportPathDefaults
-.leading_underscore;
-if (typeof options.scssImportPath.filename_extension === &#x27;undefined&#x27;) options.scssImportPath.filename_extension = scssImportPathDefaults
-.filename_extension;
-  }
-
-  return map(function(code, filename) {
-
-var content = code.<span class="apidocCodeKeywordSpan">toString</span>();
-var semicolon = path.extname(filename).indexOf(&#x27;.sass&#x27;) !== -1 ? &#x27;&#x27; : &#x27;;&#x27;;
-var importRegExp = /^\s*@import\s+((?:url\()?[&#x22;&#x27;]?)?([^&#x22;&#x27;\)]+)([&#x27;&#x22;]?(?:\))?)?;?\s*$/gm;
-var globRegExp = /\/\*/;
-var files;
-
-if (options.autoReplaceBlock.onOff){
-  var regexstring = &#x27;\/\/ &#x27;+options.autoReplaceBlock.globBlockBegin+&#x27;[\\s\\S]*?&#x27;+options.autoReplaceBlock.globBlockEnd
-;
-...</pre></li>
     </ul>
 
 
